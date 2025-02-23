@@ -1,0 +1,33 @@
+// 该文件是 chromium 推荐策略
+{
+    // 默认搜索引擎设置
+    "DefaultSearchProviderEnabled": true,
+    // 默认搜索引擎名称
+    "DefaultSearchProviderName": "必应",
+    // 默认搜索引擎网址
+    // 用 {searchTerms} 代替搜索字词
+    "DefaultSearchProviderSearchURL": "https://cn.bing.com/search?pc=MOZI&form=MOZLBR&q={searchTerms}",
+    // 显示主页按钮
+    "ShowHomeButton": true,
+    // 显示 chrome lab
+    "BrowserLabsEnabled": true,
+    // 启用 QR code 生成器
+    "QRCodeGeneratorEnabled": true,
+    // 在地址栏显示完整 url
+    "ShowFullUrlsInAddressBar": true,
+    // 控制 DNS-over-HTTPS 模式
+    // off  停用 DNS-over-HTTPS
+    // automatic  启用 DNS-over-HTTPS，但允许改用不安全的查询
+    // secure  启用 DNS-over-HTTPS，且禁止改用不安全的查询
+    "DnsOverHttpsMode": "automatic",
+    // 启用在线 OCSP/CRL 检查
+    // OCSP/CRL 检查并不能有效增强安全性
+    "EnableOnlineRevocationChecks": true,
+    // 启用政策原子组的概念
+    // 如果此政策已启用
+    // 那么对于同一政策原子组
+    // 系统会忽略组内与具有最高优先级的政策不属于同一来源的政策
+    "PolicyAtomicGroupsEnabled": true,
+    // 启用 Related Website Sets
+    "RelatedWebsiteSetsEnabled": true
+}

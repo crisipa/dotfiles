@@ -1,0 +1,58 @@
+// 该文件是 chromium 强制策略
+{
+    "SiteSearchSettings": [
+        // 添加搜索工具
+        // "name"  搜索工具名称
+        // shortcut"  搜索工具的快捷字词
+        // "url"  搜索工具的网址
+        // 用 {searchTerms} 代替搜索字词
+        // 这些提取自 firefox
+        {
+            "name": "必应",
+            "shortcut": ":b",
+            "url": "https://cn.bing.com/search?pc=MOZI&form=MOZLBR&q={searchTerms}"
+        },
+        {
+            "name": "百度",
+            "shortcut": ":bd",
+            "url": "https://www.baidu.com/baidu?ie=utf-8&wd={searchTerms}"
+        },
+        {
+            "name": "google",
+            "shortcut": ":g",
+            "url": "https://www.google.com/search?client=firefox-b-d&q={searchTerms}"
+        },
+        {
+            "name": "DuckDuckGo",
+            "shortcut": ":ddg",
+            "url": "https://duckduckgo.com/?t=ffab&q={searchTerms}"
+        },
+        {
+            "name": "维基百科",
+            "shortcut": ":wiki",
+            "url": "https://zh.wikipedia.org/wiki/Special:%E6%90%9C%E7%B4%A2?sourceid=Mozilla-search&search={searchTerms}"
+        }
+    ],
+    // WebRtc 策略
+    // default - WebRTC 会在搜索最佳路径时使用所有可用接口
+    // default_public_and_private_interfaces - WebRTC 会仅使用连接到公共互联网的接口，但可能会使用专用 IP 地址进行连接
+    // default_public_interface_only - WebRTC 会仅使用连接到公共互联网的接口，且不会使用专用 IP 地址进行连接
+    // disable_non_proxied_udp - WebRTC 使用 UDP SOCKS 代理，或回退到 TCP 代理
+    // 越往下越能避免 webrtc 导致的 ip 泄露
+    // 但最好的方法还是禁用它
+    "WebRtcIPHandling": "disable_non_proxied_udp",
+    // 启用 ECH
+    "EncryptedClientHelloEnabled": true,
+    // 启用 QUIC
+    "QuicAllowed": true,
+    // 缩短 UA
+    "UserAgentReduction": 2,
+    // 禁用 JIT
+    "DefaultJavaScriptJitSetting": 2,
+    // 启用 zstd
+    "ZstdContentEncodingEnabled": true,
+    // 启用压缩字典传输
+    "CompressionDictionaryTransportEnabled": true,
+    // WebRtc 使用的端口范围
+    "WebRtcUdpPortRange": "358774-357584"
+}
