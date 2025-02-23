@@ -1,0 +1,40 @@
+patch:
+  # 开关 https://github.com/rime/rime-luna-pinyin/blob/master/luna_pinyin.schema.yaml
+  switches:
+    - name: ascii_mode
+      reset: 0
+      states: [ 中文, 西文 ]
+    - name: full_shape
+      states: [ 半角, 全角 ]
+    # 默认简体 (简体字表)
+    - name: traditionalization
+      states: [ 简, 繁 ]
+    - name: ascii_punct
+      states: ["。，", "．，"]
+    # emoji https://github.com/rime/rime-emoji/blob/master/emoji_suggestion.yaml
+    - name: emoji_suggestion
+      reset: 1
+      states: [ "🈚︎", "🈶️" ]
+  'engine/filters':
+    # emoji https://github.com/rime/rime-emoji/blob/master/emoji_suggestion.yaml
+    - simplifier@emoji_suggestion
+    # 繁体化
+    - simplifier@traditionalize
+    # 原有内容
+    - simplifier
+    - uniquifier
+  # emoji https://github.com/rime/rime-emoji/blob/master/emoji_suggestion.yaml
+  emoji_suggestion:
+    opencc_config: emoji.json
+    option_name: emoji_suggestion
+    tips: none
+    inherit_comment: false
+  # 繁体化
+  traditionalize:
+    option_name: traditionalization
+    # s2t.json | s2hk.json | s2tw.json | s2twp.json
+    opencc_config: s2tg.json
+    # 转换提示: all 都显示 | char 仅单字显示 | none 不显示。
+    tips: none
+  # 导入词库
+  'translator/dictionary': self_dict

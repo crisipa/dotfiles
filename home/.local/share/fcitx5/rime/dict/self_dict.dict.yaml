@@ -1,0 +1,26 @@
+# Rime dictionary
+# encoding: utf-8
+
+---
+name: self_dict
+version: "2024-03-30"
+import_tables:
+  # 字表
+  - rime_ice/8105
+  # 大字表（按需启用）
+  - rime_ice/41448
+  # 基础词库
+  - rime_ice/base
+  # 扩展词库
+  - rime_ice/ext
+  # 腾讯词向量（大词库，部署时间较长）
+  - rime_ice/tencent
+  # 一些杂项
+  # - rime_ice/others
+  # 萌娘百科
+  # https://github.com/outloudvi/mw2fcitx/
+  - moegirl
+  # 维基百科
+  # https://github.com/felixonmars/fcitx5-pinyin-zhwiki
+  - zhwiki
+  
