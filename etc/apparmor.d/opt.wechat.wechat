@@ -1,0 +1,139 @@
+# Last Modified: Sun Jun 15 01:23:36 2025
+abi <abi/4.0>,
+
+include <tunables/global>
+
+/opt/wechat/wechat {
+  include <abstractions/base>
+  include <abstractions/dri-common>
+  include <abstractions/fonts>
+  include <abstractions/gtk>
+  include <abstractions/kde-open5>
+  include <abstractions/mesa>
+  include <abstractions/nameservice>
+  include <abstractions/ssl_certs>
+  include <abstractions/user-tmp>
+  include <abstractions/wayland>
+
+  # 拒绝特权
+  deny capability sys_admin,
+  deny capability sys_chroot,
+  deny capability sys_ptrace,
+
+  # 阻止 微信 
+  deny ptrace read peer=*,
+  deny ptrace read peer=/opt/**,
+  deny ptrace read peer=/usr/bin/*,
+
+  # 不想让 微信 访问的东西
+  deny /dev/disk/** r,
+  deny /dev/disk/*/ r,
+  deny /etc/* w,
+  deny /etc/** w,
+  deny /etc/caddy/* r,
+  deny /etc/clash* r,
+  deny /etc/cmdline.d/* r,
+  deny /etc/cron.*/* r,
+  deny /etc/nebula/* r,
+  deny /etc/nginx/* r,
+  deny /etc/ssh/* r,
+  deny /etc/wireguard/* r,
+  deny /proc/*/cgroup r,
+  deny /proc/*/stat r,
+  deny /proc/cmdline r,
+  deny /proc/config.gz r,
+  deny /proc/cpuinfo r,
+  deny /proc/sys/fs/inotify/max_user_watches r,
+  deny /proc/version r,
+  
+  # 不知道 微信 访问这些干什么
+  deny /sys/bus/pci/devices/ r,
+  deny /sys/devices/system/cpu/cpufreq/policy*/cpuinfo_max_freq r,
+  deny /sys/devices/system/cpu/kernel_max r,
+  deny /sys/devices/virtual/** r,
+  deny /usr/bin/bash x,
+  
+  # 不想让 微信 访问的东西
+  deny owner /home/*/.config/chromium/* rw,
+  deny owner /home/*/.config/chromium/** rw,
+  deny owner /home/*/.mozilla/** rw,
+  deny owner /home/*/.pki/nssdb/* w,
+  deny owner /home/*/.ssh/* rw,
+  deny owner /home/*/.steam/* rw,
+  deny owner /home/*/.steam/** rw,
+  deny owner /home/*/.sys1og.conf w,
+  deny owner /home/*/.var/** rw,
+  deny owner /home/*/Documents/* rw,
+
+  # 域名解析
+  /etc/hosts r,
+  /etc/resolv.conf r,
+  
+  # 微信 的文件
+  /opt/wechat/* r,
+  /opt/wechat/** r,
+  /opt/wechat/*.so mr,
+  /opt/wechat/RadiumWMPF/host/*.so mr,
+  /opt/wechat/RadiumWMPF/runtime/*.so mr,
+  /opt/wechat/RadiumWMPF/runtime/WeChatAppEx mrix,
+  /opt/wechat/RadiumWMPF/runtime/WeChatAppEx_crashpad_handler mrix,
+  /opt/wechat/crashpad_handler mrix,
+  /opt/wechat/wechat mr,
+  /opt/wechat/wxocr mrix,
+  /opt/wechat/wxplayer mrix,
+  /opt/wechat/wxutility mrix,
+  /proc/self/exe mrix,
+  
+  # 不知道 微信 访问这些干什么
+  /proc/sys/kernel/yama/ptrace_scope r,
+  /sys/devices/system/cpu/present r,
+  /usr/share/icons/** r,
+  audit /etc/hostname r,
+  audit /proc/ r,
+  audit /sys/class/net/ r,
+  
+  # 网卡地址
+  audit /sys/devices/pci*/**/en*/address r,
+  audit /sys/devices/pci*/**/et*/address r,
+  audit /sys/devices/pci*/**/wl*/address r,
+  
+  # amd 核显
+  audit /sys/devices/pci0000:00/0000:00:08.1/0000:36:00.0/* r,
+  
+  # 本地地址
+  audit /sys/devices/virtual/net/lo/address r,
+  
+  # 电子垃圾😡
+  audit owner /dev/shm/.org.chromium.Chromium.* rw,
+  
+  # 让 qq 访问 下载 文件夹
+  audit owner /home/*/Downloads/* rw,
+  
+  # x11 窗口😡
+  audit owner /run/user/1000/xauth_* r,
+  
+  # 桌面配置
+  owner /home/*/.config/gtk-*/* r,
+  owner /home/*/.config/kdedefaults/kdeglobals r,
+  owner /home/*/.config/kdeglobals r,
+  owner /home/*/.config/user-dirs.dirs r,
+  
+  # 微信 的用户数据
+  owner /home/*/.pki/nssdb/* r,
+  owner /home/*/.xwechat/** rwk,
+  owner /home/*/Documents/xwechat_files/** rwk,
+  
+  # 微信 的 proc ？
+  owner /proc/*/cmdline r,
+  owner /proc/*/fd/ r,
+  owner /proc/*/mem r,
+  owner /proc/*/oom_score_adj w,
+  owner /proc/*/setgroups w,
+  owner /proc/*/stat r,
+  owner /proc/*/statm r,
+  owner /proc/*/task/ r,
+  owner /proc/*/task/** r,
+
+  userns create,
+
+}
