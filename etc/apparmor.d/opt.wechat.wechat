@@ -24,6 +24,9 @@ include <tunables/global>
   deny ptrace read peer=*,
   deny ptrace read peer=/opt/**,
   deny ptrace read peer=/usr/bin/*,
+  deny ptrace trace peer=*,
+  deny ptrace trace peer=/opt/**,
+  deny ptrace trace peer=/usr/bin/*,
 
   # 不想让 微信 访问的东西
   deny /dev/disk/** r,
@@ -45,6 +48,10 @@ include <tunables/global>
   deny /proc/cpuinfo r,
   deny /proc/sys/fs/inotify/max_user_watches r,
   deny /proc/version r,
+  
+  # 不启动崩溃报告
+  deny /opt/wechat/RadiumWMPF/runtime/WeChatAppEx_crashpad_handler x,
+  deny /opt/wechat/crashpad_handler x,
   
   # 不知道 微信 访问这些干什么
   deny /sys/bus/pci/devices/ r,
@@ -71,14 +78,12 @@ include <tunables/global>
   
   # 微信 的文件
   /opt/wechat/* r,
-  /opt/wechat/** r,
   /opt/wechat/*.so mr,
+  /opt/wechat/*.so.* mr,
   /opt/wechat/RadiumWMPF/host/*.so mr,
   /opt/wechat/RadiumWMPF/runtime/*.so mr,
   /opt/wechat/RadiumWMPF/runtime/WeChatAppEx mrix,
-  /opt/wechat/RadiumWMPF/runtime/WeChatAppEx_crashpad_handler mrix,
-  /opt/wechat/crashpad_handler mrix,
-  /opt/wechat/wechat mr,
+  /opt/wechat/libvlc.so.* mr,
   /opt/wechat/wxocr mrix,
   /opt/wechat/wxplayer mrix,
   /opt/wechat/wxutility mrix,
@@ -113,6 +118,7 @@ include <tunables/global>
   audit owner /run/user/1000/xauth_* r,
   
   # 桌面配置
+  /usr/bin/xdg-open rPx -> wechat_xdg_open,
   owner /home/*/.config/gtk-*/* r,
   owner /home/*/.config/kdedefaults/kdeglobals r,
   owner /home/*/.config/kdeglobals r,
@@ -135,5 +141,18 @@ include <tunables/global>
   owner /proc/*/task/** r,
 
   userns create,
+
+}
+
+profile wechat_xdg_open {
+  include <abstractions/qt6>
+  include <abstractions/xdg-open>
+
+  # 看起来似乎没有起到应有的限制效果
+
+#   /usr/bin/chromium{,-browser} Cx -> sanitized_helper,
+#   /usr/bin/firefox rCx -> sanitized_helper,
+#   /usr/lib{,64}/chromium{,-browser}/chromium{,-browser} Cx -> sanitized_helper,
+#   /usr/lib{,64}/firefox*/firefox* Cx -> sanitized_helper,
 
 }

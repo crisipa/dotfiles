@@ -1,0 +1,49 @@
+# vim:syntax=apparmor
+# defines some path
+
+  abi <abi/4.0>,
+
+  # 访问磁盘
+  deny /dev/disk/** r,
+  deny /dev/disk/*/ r,
+
+  # etc
+
+  # 写入 etc
+  deny /etc/* w,
+  deny /etc/** w,
+  # 读取 etc
+  deny /etc/caddy/* r,
+  deny /etc/clash* r,
+  deny /etc/cmdline.d/* r,
+  deny /etc/cron.*/* r,
+  deny /etc/nebula/* r,
+  deny /etc/nginx/* r,
+  deny /etc/ssh/* r,
+  deny /etc/wireguard/* r,
+
+  # procfs
+
+  deny /proc/cmdline r,
+  deny /proc/config.gz r,
+  deny /proc/cpuinfo r,
+  deny /proc/version r,
+
+  # home
+
+  # chromium
+  deny owner /home/*/.config/chromium/* rw,
+  deny owner /home/*/.config/chromium/** rw,
+  # firefox thunderbird
+  deny owner /home/*/.mozilla/** rw,
+  # 写入证书
+  deny owner /home/*/.pki/nssdb/* w,
+  # ssh
+  deny owner /home/*/.ssh/* rw,
+  # steam
+  deny owner /home/*/.steam/* rw,
+  deny owner /home/*/.steam/** rw,
+  # flatpak
+  deny owner /home/*/.var/** rw,
+  # doc
+  deny owner /home/*/Documents/* rw,

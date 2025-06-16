@@ -3,6 +3,15 @@ abi <abi/4.0>,
 
 include <tunables/global>
 
+/opt/QQ/chrome_crashpad_handler {
+  include <abstractions/base>
+
+  deny owner /home/*/.config/QQ/**/ r,
+
+  /opt/QQ/chrome_crashpad_handler mrix,
+
+}
+
 /opt/QQ/qq {
   include <abstractions/base>
   include <abstractions/dbus-session-strict>
@@ -14,11 +23,21 @@ include <tunables/global>
   include <abstractions/ssl_certs>
   include <abstractions/user-tmp>
   include <abstractions/wayland>
+  
+  # 拒绝 cap
+  deny capability sys_ptrace,
 
   # 不给特权不启动
   capability sys_admin,
   capability sys_chroot,
-  capability sys_ptrace,
+  
+  # 阻止 ptrace
+  deny ptrace read peer=*,
+  deny ptrace read peer=/opt/**,
+  deny ptrace read peer=/usr/bin/*,
+  deny ptrace trace peer=*,
+  deny ptrace trace peer=/opt/**,
+  deny ptrace trace peer=/usr/bin/*,
 
   # 不想让 qq 访问的东西
   deny /dev/disk/** r,
@@ -31,14 +50,18 @@ include <tunables/global>
   deny /etc/cron.*/* r,
   deny /etc/nebula/* r,
   deny /etc/nginx/* r,
+  deny /etc/profile r,
   deny /etc/ssh/* r,
   deny /etc/wireguard/* r,
   deny /proc/*/stat r,
   deny /proc/cmdline r,
   deny /proc/config.gz r,
   deny /proc/cpuinfo r,
+  deny /proc/devices r,
   deny /proc/sys/fs/inotify/max_user_watches r,
+  deny /proc/uptime r,
   deny /proc/version r,
+  deny /sys/class/net/ r,
   deny /sys/devices/** r,
   
   # 不想让 qq 访问的东西
@@ -62,7 +85,7 @@ include <tunables/global>
   /opt/QQ/** r,
   /opt/QQ/*.so mr,
   /opt/QQ/*.so.* mr,
-  /opt/QQ/chrome_crashpad_handler mrix,
+  /opt/QQ/chrome_crashpad_handler px,
   /opt/QQ/qq mrix,
   /opt/QQ/resources/app/*.node mr,
   /opt/QQ/resources/app/*.so mr,
@@ -75,6 +98,7 @@ include <tunables/global>
   /usr/share/fcitx5/themes/default/theme.conf r,
   
   # 桌面配置
+  /usr/bin/xdg-open rPx -> qq_xdg_open,
   /usr/share/icons/** r,
   /usr/share/mime/mime.cache r,
   /var/lib/flatpak/exports/share/mime/mime.cache r,
@@ -129,5 +153,18 @@ include <tunables/global>
   owner /proc/*/uid_map w,
 
   userns create,
+
+}
+
+profile qq_xdg_open {
+  include <abstractions/qt6>
+  include <abstractions/xdg-open>
+
+  # 看起来似乎没有起到应有的限制效果
+
+#   /usr/bin/chromium{,-browser} Cx -> sanitized_helper,
+#   /usr/bin/firefox rCx -> sanitized_helper,
+#   /usr/lib{,64}/chromium{,-browser}/chromium{,-browser} Cx -> sanitized_helper,
+#   /usr/lib{,64}/firefox*/firefox* Cx -> sanitized_helper,
 
 }

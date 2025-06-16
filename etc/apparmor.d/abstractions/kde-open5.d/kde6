@@ -1,0 +1,22 @@
+# vim:syntax=apparmor
+
+  abi <abi/4.0>,
+
+  # kde 6
+  /usr/bin/kde-open rix,
+  /usr/lib/kf6/kioworker ix,
+
+  owner /home/*/.local/state/kioclientstaterc.lock rw,
+  owner /home/*/.local/share/#[0-9]* rw, # for /run/user/1000/#13
+  owner /home/*/.cache/ksycoca6* r,
+  owner /home/*/.cache/ksycoca6*.lock w,
+
+  owner @{run}/user/[0-9]*/kioclient*.1.kioworker.socket lrw -> @{run}/user/[0-9]/#[0-9]*, # for KIO::Slave::holdSlave(QString const&, QUrl const&) () from libKF5KIOCore.so (not 100% sure)
+
+  # DBus
+
+  dbus
+      bus=session
+      interface=org.kde.KLauncher
+      member=start_service_by_desktop_path
+      peer=(name=org.kde.klauncher6),

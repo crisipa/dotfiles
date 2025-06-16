@@ -1,0 +1,6 @@
+# vim:syntax=apparmor
+
+  abi <abi/4.0>,
+
+  # kde 6
+  /usr/share/knotifications6/*.notifyrc r, # KNotification::sendEvent()
