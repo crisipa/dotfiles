@@ -1,19 +1,15 @@
 # https://github.com/privacy-protection-tools/anti-AD/blob/master/discretion/pcdn.txt
-# bc558c1 20250323
-
-# Auto Number Verification
-# https://github.com/privacy-protection-tools/anti-AD/issues/547
-# https://github.com/privacy-protection-tools/anti-AD/issues/866
-# https://github.com/privacy-protection-tools/anti-AD/issues/971
+# https://github.com/susetao/PCDNFilter-CHN-/blob/main/AutoVerificationBlock.txt
+# 250617
 
 0.0.0.0 auth.wosms.cn
 0.0.0.0 config.cmpassport.com
 0.0.0.0 enrichgw.10010.com
 0.0.0.0 hmrz.wo.cn
-0.0.0.0 id.mail.wo.cn
 0.0.0.0 id6.me
-0.0.0.0 log.cmpassport.com
+0.0.0.0 id.mail.wo.cn
 0.0.0.0 log1.cmpassport.com
+0.0.0.0 log.cmpassport.com
 0.0.0.0 mdn.open.wo.cn
 0.0.0.0 mob.com
 0.0.0.0 nishub1.10010.com

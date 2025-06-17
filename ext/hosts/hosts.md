@@ -37,8 +37,6 @@ alt7-mtalk.google.com
 alt8-mtalk.google.com
 ```
 
-## whitelist
-
 ```
 # sicau
 
@@ -50,6 +48,8 @@ alt8-mtalk.google.com
 120.53.53.53 dns.pub
 120.53.53.53 dot.pub
 ```
+
+## whitelist
 
 | 名称 | URI |
 |-------|------|
